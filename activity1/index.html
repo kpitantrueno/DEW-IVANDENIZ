@@ -15,7 +15,88 @@
     <p>On this activity we will show the data in the variable employees in this html as a table, build all the elements with js functions</p>
     <div id="table-container"></div>
     <script>
-     var employees = [{"id":1,"name":"MIRIAM CASTIÑEIRA BREA","department":"IT"},{"id":2,"name":"GONZALO MULET FIGUERAS","department":"IT"},{"id":3,"name":"FRANCISCO JOSE GRAÑA BARBERA","department":"IT"},{"id":4,"name":"IRENE POMBO JORDA","department":"HR"}]
+    
+    
+    
+    var employees = [{"id":1,"name":"MIRIAM CASTIÑEIRA BREA","department":"IT"},{"id":2,"name":"GONZALO MULET FIGUERAS","department":"IT"},{"id":3,"name":"FRANCISCO JOSE GRAÑA BARBERA","department":"IT"},{"id":4,"name":"IRENE POMBO JORDA","department":"HR"}]
+    
+    //CREO LA TABLA Y LA INYECTO EN EL BODY
+    var body = document.querySelector('body');
+    var table = document.createElement('table');
+    table.setAttribute('border', '1px');
+    body.appendChild(table);
+
+
+    //ME SITUO EN LA TABLA
+    var latable = document.querySelector('table');
+
+
+    //CREO LOS ENCABEZADOS
+    var thID = document.createElement('th');
+    thID.innerText = 'ID' ;
+    latable.appendChild(thID); 
+   
+    var thNAME = document.createElement('th');
+    thNAME.innerText = 'NAME' ;
+    latable.appendChild(thNAME); 
+
+
+    var thDEPARTMENT = document.createElement('th');
+    thDEPARTMENT.innerText = 'DEPARTMENT' ;
+    latable.appendChild(thDEPARTMENT); 
+   
+  
+
+
+        
+        for (let index = 0; index < employees.length; index++) {
+         
+          
+          //POR CADA OBJETO DEL ARRAY CREO UN TR
+          var tr = document.createElement('tr');
+          tr.id = index;
+          latable.appendChild(tr);
+
+
+
+         //OBTENGO CUANTOS ATRIBUTOS TIENE EL OBJETO PARA LUEGO RECORRERLOS
+         let lengthOfObject = Object.keys(employees[index]).length; 
+         //OBTENGO EL NOMBRE DE ESOS ATRIBUTOS PARA LUEGO OBTENER SU VALOR
+         let attributes =  Object.keys(employees[index]);
+         
+              
+
+
+              for (let index2 = 0; index2 < lengthOfObject; index2++) {
+
+                //POR CADA ATRIBUTO DEL OBJETO CREO UN TD Y LE AÑADO EL VALOR DE CADA UNO
+                var td = document.createElement('td');
+                td.innerText = employees[index][attributes[index2]];
+                var actuallTR = document.getElementById(index);
+                actuallTR.appendChild(td);
+               
+    
+              }
+
+
+        }
+
+
+
+
+   
+
+
+
+
+
+
+    
+
+
+
+      
+
     </script>
   </body>
 </html>
