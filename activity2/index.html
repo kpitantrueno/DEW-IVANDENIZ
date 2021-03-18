@@ -1,19 +1,110 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Activity 2: jQuery + AJAX request + DOM manipulation</title>
-  </head>
-  <body>
-    <h1>Activity 2: jQuery + AJAX request + DOM manipulation</h1>
-    <p>With JQuery load de data on the sibling file employees.json and build a table showing the data:</p>
-    <div id="table-container"></div>
-    <sript src="https://code.jquery.com/jquery-3.6.0.min.js" />
-  </body>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <title>Activity 2: jQuery + AJAX request + DOM manipulation</title>
+</head>
+
+<body>
+  <h1>Activity 2: jQuery + AJAX request + DOM manipulation</h1>
+  <p>With JQuery load de data on the sibling file employees.json and build a table showing the data:</p>
+  <div id="table-container"></div>
+
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous">
+  </script>
+
+
+  <script>
+    $(document).ready(function () {
+
+
+
+
+    
+
+
+
+      //OBTENGO LOS DATOS DEL JSON
+      $.ajax({
+
+        url: 'employees.json',
+        method: 'post',
+        dataType: 'json',
+        success: data => {
+
+
+
+          //CREO LA TABLA Y LA INYECTO
+          $('body').append('<table>');
+          $('table').prop('border','1px solid')
+
+
+
+         
+          
+
+          //OBTENGO EL NOMBRE DE LOS ATRIBUTOS PARA PONER LOS TH
+          let empployeeKeys = Object.keys(data[0]); 
+         
+          empployeeKeys.forEach(element => {
+              
+            
+            $('table').append('<th>');
+            $('th:last').text(element);
+
+          });
+
+
+
+
+
+          //RECORRO CADA OBJETO Y CREO UN TR POR CADA UNO DE ELLOS
+          data.forEach(element => {
+            
+            $('table').append('<tr>');
+             
+            //OBTENGO LOS VALORES A MOSTRAR EN LA TABLA DE CADA OBJETO  
+            let empployeeValues = Object.values(element); 
+            
+            //POR CADA VALOR DEL OBJETO CREO UN TD Y MUESTRO EL DATO
+            empployeeValues.forEach(subElement => {
+              
+              $('tr:last').append('<td>');
+              $('td:last').text(subElement);
+
+
+            });
+            
+
+
+          });
+
+      
+
+        }//succes
+
+      })
+
+
+
+
+    });
+  </script>
+
+
+
+
+
+</body>
+
 </html>
