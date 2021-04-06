@@ -31,11 +31,21 @@
     <li>When 1 audio ends the following one must estart playing automatically</li>
   </ul>
 
-  <ol id="trackList">
-    <li><input id="1810 Beethoven- Fur Elise.mp3" type='submit' class="track" value='track 1'></li>
-    <li><input id="1729 Vivaldi , Mandoline Concerto in C, RV 425.mp3" type='submit' class="track" value='track 2'></li>
 
+
+
+
+
+  <ol id="trackList">
+    <li><input id="1810 Beethoven- Fur Elise.mp3" type='submit' class="track" value='track 1'><i></i></li>
+    <li><input id="1729 Vivaldi , Mandoline Concerto in C, RV 425.mp3" type='submit' class="track" value='track 2'><i></i></li>
+    <li><input id="1721 Bach , Brandenburg Concerto No. 3, 1st movement.mp3" type='submit' class="track" value='track 3'><i></i></li>
   </ol>
+
+
+
+
+
 
 
   <div id="reproductor">
@@ -73,15 +83,107 @@
 
 
 
+    function initControls() {
+
+
+      var play = document.getElementsByClassName('play');
+
+      play[0].addEventListener('click', playPause);
+
+      var nextTrackButton = document.getElementsByClassName('fordward');
+
+      nextTrackButton[0].addEventListener('click', nextTrack);
+
+      var previousTrackButton = document.getElementsByClassName('backward');
+
+      previousTrackButton[0].addEventListener('click', previousTrack);
+
+    }
 
 
 
+
+
+
+    function playPause() {
+
+      var play = document.getElementsByClassName('play');
+
+      var iPlay = play[0].children[0];
+
+      if (audio.paused) {
+
+        audio.play()
+
+        iPlay.classList.replace('fa-pause', 'fa-play')
+
+        trackSelected(audio.getAttribute(name), true)
+
+      } else {
+
+        audio.pause()
+
+        iPlay.classList.replace('fa-play', 'fa-pause')
+
+        trackSelected(audio.getAttribute(name), false)
+
+      }
+
+    }
 
 
 
 
 
     function nextTrack() {
+
+      var audio = document.getElementById("audio")
+
+      var tracks = document.getElementsByClassName('track');
+
+      for (let index = 0; index < tracks.length; index++) {
+
+        if (tracks[index].id == audio.getAttribute('name')) {
+
+          if (index == tracks.length - 1) {
+
+            audio.setAttribute('src', tracks[0].id)
+
+            audio.setAttribute('name', tracks[0].id)
+
+            audio.play()
+
+            trackSelected(tracks[0].id, true)
+
+          } else {
+
+            index += 1
+
+            audio.setAttribute('src', tracks[index].id)
+
+            audio.setAttribute('name', tracks[index].id)
+
+            audio.play()
+
+            trackSelected(tracks[index].id, true)
+
+          }
+
+          
+
+        }
+
+      }
+
+    }
+
+
+
+
+
+
+
+    function previousTrack() {
 
       audio = document.getElementById("audio")
 
@@ -91,7 +193,7 @@
 
         if (tracks[index].id == audio.getAttribute('name')) {
 
-          if (index == tracks.length -1) {
+          if (index == 0) {
 
             audio.setAttribute('src', tracks[0].id)
 
@@ -99,16 +201,20 @@
 
             audio.play()
 
+            trackSelected(tracks[0].id, true)
+
 
           } else {
 
-            index += 1
+            index -= 1
 
-            audio.setAttribute('src', tracks[index ].id)
+            audio.setAttribute('src', tracks[index].id)
 
             audio.setAttribute('name', tracks[index].id)
 
             audio.play()
+
+            trackSelected(tracks[index].id, true)
 
           }
 
@@ -128,11 +234,22 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
     function createAudio(defaultTrack) {
 
+      initControls()
 
       var defaultTrack = trackList()
-
 
       nuevo_audio = document.createElement("audio")
 
@@ -143,7 +260,7 @@
       nuevo_audio.setAttribute("name", defaultTrack)
 
       nuevo_audio.setAttribute("src", defaultTrack)
-      
+
       nuevo_audio.setAttribute("autoplay", "autoplay")
 
       //  nuevo_audio.setAttribute("loop", "loop")
@@ -154,9 +271,7 @@
 
       nuevo_audio.onended = nextTrack
 
-
-
-
+      trackSelected(defaultTrack, true)
 
     }
 
@@ -176,7 +291,7 @@
 
       for (let item of tracks) {
 
-        item.addEventListener('click', trackSelected);
+        item.addEventListener('click', loadTrack);
 
       }
 
@@ -189,27 +304,68 @@
 
 
     //obtengo el track y se lo paso a cargar reproductor
-    function trackSelected(e) {
+    function loadTrack(e) {
 
       var event = e || window.event;
 
-      cargarTrack(event.target.id);
+      track = event.target.id;
 
-    }
-
-
-
-    function cargarTrack(track) {
-
+      // cargarTrack(event.target.id);
       audio = document.getElementById('audio');
 
       audio.setAttribute('src', track)
 
       audio.setAttribute('name', track)
-     
+
       audio.play()
 
+      trackSelected(track,true)
+
     }
+
+
+
+
+
+    function trackSelected(track, itsPlay) {
+
+      var audio = document.getElementById("audio")
+
+      var tracks = document.getElementsByClassName('track');
+
+
+      for (let index = 0; index < tracks.length; index++) {
+
+        tracks[index].nextSibling.className = ''
+
+        if (tracks[index].id == audio.getAttribute('name')) {
+
+
+          if(itsPlay){
+
+          tracks[index].nextSibling.classList.add('fa')
+          tracks[index].nextSibling.classList.add('fa-play')
+
+          }else{
+
+            tracks[index].nextSibling.classList.add('fa')
+            tracks[index].nextSibling.classList.add('fa-pause')
+
+
+          }
+
+
+        }
+
+      }
+
+    }
+
+
+
+
+
+
 
 
 
