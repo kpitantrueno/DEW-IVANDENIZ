@@ -5,11 +5,16 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+
+  <script src="js/bootstrap.min.js"></script>
 
   <title>Activity 5: Objects</title>
 </head>
 
 <body>
+
+  <!--
   <h1>Activity 5: Objects</h1>
   <p>This is classy! Follow the specifications to create some javascript classes:</p>
   <ul>
@@ -58,9 +63,114 @@
   </ul>
   
  
+-->
+
+<style>
+
+ .display{
+
+  text-align: right;
+  height: 20%;
+
+  
+
+ }
+
+.window{
+
+  border: solid 1px;
+  width: 500px;
+  height: 500px;
+  background-color: red;
+  position: absolute;
+
+}
+
+
+.content{
+
+  border: solid 1px;
+  background-color: green;
+  height: 80%;
+  overflow: scroll;
+
+}
+
+
+.btn{
+
+  border: solid 1px;
+
+
+}
+
+
+</style>
+
+
+
+<!--
+  <div class="container d-flex flex-wrap window">
+     
+    <input type="text"  class="form-control display">
+
+    <div class="col-12 d-flex flex-wrap container content" >
+      <input class="col-5 btn btn-primary" type="button" value="C">
+      <input class="col-4 btn btn-primary" type="button" value=",">
+      <input class="col-3 btn btn-primary" type="button" value="/">
+      <input class="col-3 btn btn-primary" type="button" value="9">
+      <input class="col-3 btn btn-primary" type="button" value="8">
+      <input class="col-3 btn btn-primary" type="button" value="7">
+      <input class="col-3 btn btn-primary" type="button" value="x">
+      <input class="col-3 btn btn-primary" type="button" value="4">
+      <input class="col-3 btn btn-primary" type="button" value="5">
+      <input class="col-3 btn btn-primary" type="button" value="7">
+      <input class="col-3 btn btn-primary" type="button" value="-">
+      <input class="col-3 btn btn-primary" type="button" value="1">
+      <input class="col-3 btn btn-primary" type="button" value="2">
+      <input class="col-3 btn btn-primary" type="button" value="3">
+      <input class="col-3 btn btn-primary" type="button" value="+">
+      <input class="col-4 btn btn-primary" type="button" value="0">
+      <input class="col-8 btn btn-primary" type="button" value="=">
+    </div>
+
+
+  </div>
+-->
+
+
+
+
 
 
   <script>
+
+
+/*
+
+    let buttons = document.getElementsByClassName('btn');
+      
+      for (let index = 0; index < buttons.length; index++) {
+        
+         buttons[index].addEventListener('click', function() {
+           
+         let dp = (document.getElementsByClassName('display'))
+
+         dp[0].value += buttons[index].value
+
+         })
+
+      }
+
+
+  */ 
+
+
+
+
+
+
+
 
 
     class windows {
@@ -69,69 +179,81 @@
       constructor(options = {}) {
 
         //DATOS
-        this.width = options.width || 150;
-        this.height = options.height || 150;
+        this.width = options.width || 300;
+        this.height = options.height || 300;
         this.posX = options.posX || 150;
         this.posY = options.posY || 150;
 
+    
         //VENTANA
         this.el = document.createElement('div');
-        this.el.setAttribute('id','window');
-        this.el.setAttribute('class','container');
+        this.el.classList.add('window');
+        this.el.classList.add('container');
+        this.el.classList.add('d-flex');
+        this.el.classList.add('flex-wrap');
         this.el.style.width = this.width + 'px';
         this.el.style.height = this.height + 'px';
         this.el.style.top = this.posX + 'px';
         this.el.style.left = this.posX + 'px';
-        this.el.style.position = 'absolute';
-        this.el.style.border = 'solid 1px';
-        this.el.style.background = 'white';
-        document.body.appendChild(this.el);
+      
 
 
         //TITULO-DISPLAY
-        this.title = document.createElement('div');
-        this.title.setAttribute('id','title');
-        this.title.setAttribute('class','col-12');
-        this.title.setAttribute('class','container');
-        this.title.style.height = '20%';
-        this.title.style.top = '0';
-        this.title.style.position = 'relative'
-        this.title.style.border = 'solid 1px';
-        (document.querySelector('#window')).appendChild(this.title);
+        this.title = document.createElement('input');
+        this.title.type = 'text';
+        this.title.classList.add('display');
+        this.title.classList.add('form-control');
+        this.el.appendChild(this.title);
+
+
+
+
 
 
         //CONTENT
         this.content = document.createElement('div');
-        this.content.setAttribute('id','content');
-        this.content.setAttribute('class','col-12');
-        this.content.setAttribute('class','container');
-        this.content.style.height = '77%';
-        this.content.style.position = 'relative'
-        this.content.style.border = 'solid 1px';
-        (document.querySelector('#window')).appendChild(this.content);
+        this.content.classList.add('content');
+        this.content.classList.add('container');
+        this.content.classList.add('d-flex');
+        this.content.classList.add('col-12');
+        this.content.classList.add('flex-wrap');
+        
+        this.el.appendChild(this.content);
 
 
+
+        //  (document.querySelector('.window')).appendChild(this.content);
+        //this.p = document.createElement('p');
+
+
+
+
+
+        document.body.appendChild(this.el);
 
       }
 
 
 
       setTitle(param) {
-      
-        var title = document.querySelector('#title');
-        title.innerHTML = param;
+        /*
+        var title = document.querySelector('.display');
+        title.value = param;
         title.style.textAlign = 'center';
-     
+        */
+
+        this.title.value = param;
+        this.title.style.textAlign = 'center';
       }
 
 
 
       setContent(param) {
 
-        var content = document.querySelector('#content');
-        content.style.overflow = 'auto'
-        content.innerHTML = param;
-        
+        //var content = document.querySelector('.content');
+        this.content.innerHTML = param;
+
+
       }
 
 
@@ -158,9 +280,9 @@
 
 
 
-      constructor(){
+      constructor(options = {}) {
 
-        super();
+        super(options);
 
 
       }
@@ -176,7 +298,26 @@
       //TAMBIEN EL RESTO DE BOTONES 
       //Y LES AÑADE SU EVENTO CORRESPONDIENTE
       //FINALMENTE LOS COLOCA EN SU SITIO
-      addButtons(){}
+      addButtons() {
+
+        let button;
+        let content = document.querySelector('.content');
+
+        for (let index = 0; index < 10; index++) {
+
+          button = document.createElement('button')
+          button.value = index
+          button.innerHTML = index
+
+          content.appendChild(button)
+
+
+
+        }
+        
+
+
+      }
 
 
 
@@ -194,22 +335,22 @@
 
 
 
-      
 
 
-      displayNumber(){}
 
-      reset(){}
+      displayNumber() { }
 
-      sum(){}
+      reset() { }
 
-      subtraction(){}
+      sum() { }
 
-      division(){}
+      subtraction() { }
 
-      multiplication(){}
+      division() { }
 
-      result(){}
+      multiplication() { }
+
+      result() { }
 
 
 
@@ -239,8 +380,17 @@
 
     let a = new windows();
     a.setTitle('hola')
-    a.setContent('hdfoighiorhgiowhgqiojfpegjeropwgjeorphpowc')
+    a.setContent('hdfoighiorbggiupowc')
 
+    let b = new windows({posX:300, posY:300});
+    b.setTitle('adios')
+    b.setContent('aaaaaaaaaaaaaaaaaa')
+  
+  
+  
+  
+    // let b = new calculator({posX:300,posY:300});
+    //b.addButtons();
 
   </script>
 
