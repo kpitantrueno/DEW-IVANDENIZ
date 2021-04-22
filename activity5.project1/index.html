@@ -264,6 +264,10 @@
 
         super(options);
         this.addButtons();
+        this.total = null;
+        this.num = null;
+        this.operator=null;
+        
 
 
 
@@ -287,28 +291,38 @@
 
         if (event == 'displayNumber') {
 
-          input.addEventListener('click', this.displayNumber.bind(this.title))
+          input.addEventListener('click', this.displayNumber.bind(this))
 
 
         }
+
+        if (event == 'reset') {
+
+          input.addEventListener('click', this.reset.bind(this))
+
+        }
+
 
         if (event == 'sum') {
 
-
+          input.addEventListener('click', this.sum.bind(this))
 
         }
 
 
+        if (event == 'result') {
+          
+          input.addEventListener('click', this.result.bind(this))
 
-
-
-
+        }
 
 
 
         return input
 
       }
+
+
 
 
 
@@ -321,7 +335,7 @@
 
             this.content.appendChild(this.generateInput('0', 'col-3', 'displayNumber'))
             this.content.appendChild(this.generateInput(',', 'col-4', 'displayNumber'))
-            this.content.appendChild(this.generateInput('C', 'col-5'))
+            this.content.appendChild(this.generateInput('C', 'col-5', 'reset'))
 
           }
 
@@ -343,8 +357,8 @@
 
           if (index == 9) {
 
-            this.content.appendChild(this.generateInput('+', 'col-3'))
-            this.content.appendChild(this.generateInput('=', 'col-9'))
+            this.content.appendChild(this.generateInput('+', 'col-3', 'sum'))
+            this.content.appendChild(this.generateInput('=', 'col-9','result'))
             this.content.appendChild(this.generateInput('/', 'col-3'))
 
           }
@@ -361,15 +375,93 @@
 
       displayNumber(e) {
 
-        this.value += e.target.value
+       
+
+        
+   
+          
+          this.title.value += e.target.value
+          
+      
+
 
       }
 
 
 
-      reset() { }
 
-      sum() { }
+
+
+
+
+      reset() {
+
+        this.title.value = '';
+        this.operator=null;
+        this.num=null;
+        this.total=null;
+
+      }
+
+
+      sum() {
+
+
+        
+        if (this.total!=null) {
+          
+          
+          this.num = parseInt((this.title.value));
+          this.total =  this.num + this.total;
+          this.title.value= '';
+          this.operator==null;
+
+        }else{
+
+          this.operator='+'
+          this.total = parseInt((this.title.value));
+          this.title.value= '';
+
+        }
+    
+
+   
+
+
+      }
+
+
+
+
+
+      result() {
+
+
+       
+        if (this.operator=='+') {
+          
+          this.num = parseInt((this.title.value));
+          this.total=  this.total +  this.num;
+          
+       
+          this.title.value =  this.total;
+          
+
+        }
+        
+        
+        
+        
+        this.total=null;
+        this.num=null;
+        this.operator=null;
+       
+
+      }
+
+
+
+
 
       subtraction() { }
 
@@ -377,7 +469,8 @@
 
       multiplication() { }
 
-      result() { }
+
+
 
 
 
@@ -412,7 +505,7 @@
     a.setContent('hdfoighiorbggiupowc')
 
     let b = new calculator({ posX: 300, posY: 300 });
-   
+
 
   </script>
 
