@@ -65,51 +65,48 @@
  
 -->
 
-<style>
+  <style>
+    .display {
 
- .display{
-
-  text-align: right;
-  height: 20%;
-
-  
-
- }
-
-.window{
-
-  border: solid 1px;
-  width: 500px;
-  height: 500px;
-  background-color: red;
-  position: absolute;
-
-}
-
-
-.content{
-
-  border: solid 1px;
-  background-color: green;
-  height: 80%;
-  overflow: scroll;
-
-}
-
-
-.btn{
-
-  border: solid 1px;
-
-
-}
-
-
-</style>
+      text-align: right;
+      height: 20%;
 
 
 
-<!--
+    }
+
+    .window {
+
+      border: solid 1px;
+      width: 500px;
+      height: 500px;
+      background-color: red;
+      position: absolute;
+
+    }
+
+
+    .content {
+
+      border: solid 1px;
+      background-color: green;
+      height: 80%;
+      overflow: scroll;
+
+    }
+
+
+    .btn {
+
+      border: solid 1px;
+
+
+    }
+  </style>
+
+
+
+  <!--
   <div class="container d-flex flex-wrap window">
      
     <input type="text"  class="form-control display">
@@ -146,24 +143,24 @@
   <script>
 
 
-/*
-
-    let buttons = document.getElementsByClassName('btn');
-      
-      for (let index = 0; index < buttons.length; index++) {
-        
-         buttons[index].addEventListener('click', function() {
-           
-         let dp = (document.getElementsByClassName('display'))
-
-         dp[0].value += buttons[index].value
-
-         })
-
-      }
-
-
-  */ 
+    /*
+    
+        let buttons = document.getElementsByClassName('btn');
+          
+          for (let index = 0; index < buttons.length; index++) {
+            
+             buttons[index].addEventListener('click', function() {
+               
+             let dp = (document.getElementsByClassName('display'))
+    
+             dp[0].value += buttons[index].value
+    
+             })
+    
+          }
+    
+    
+      */
 
 
 
@@ -179,12 +176,12 @@
       constructor(options = {}) {
 
         //DATOS
-        this.width = options.width || 300;
+        this.width = options.width || 500;
         this.height = options.height || 300;
         this.posX = options.posX || 150;
         this.posY = options.posY || 150;
 
-    
+
         //VENTANA
         this.el = document.createElement('div');
         this.el.classList.add('window');
@@ -195,7 +192,7 @@
         this.el.style.height = this.height + 'px';
         this.el.style.top = this.posX + 'px';
         this.el.style.left = this.posX + 'px';
-      
+
 
 
         //TITULO-DISPLAY
@@ -207,9 +204,6 @@
 
 
 
-
-
-
         //CONTENT
         this.content = document.createElement('div');
         this.content.classList.add('content');
@@ -217,16 +211,8 @@
         this.content.classList.add('d-flex');
         this.content.classList.add('col-12');
         this.content.classList.add('flex-wrap');
-        
+
         this.el.appendChild(this.content);
-
-
-
-        //  (document.querySelector('.window')).appendChild(this.content);
-        //this.p = document.createElement('p');
-
-
-
 
 
         document.body.appendChild(this.el);
@@ -236,23 +222,17 @@
 
 
       setTitle(param) {
-        /*
-        var title = document.querySelector('.display');
-        title.value = param;
-        title.style.textAlign = 'center';
-        */
 
         this.title.value = param;
         this.title.style.textAlign = 'center';
+
       }
 
 
 
       setContent(param) {
 
-        //var content = document.querySelector('.content');
         this.content.innerHTML = param;
-
 
       }
 
@@ -283,62 +263,109 @@
       constructor(options = {}) {
 
         super(options);
+        this.addButtons();
+
 
 
       }
 
 
 
+      generateInput(value, size, event) {
+
+        let input
+
+
+        input = document.createElement('input')
+        input.type = 'button'
+        input.classList.add('btn')
+        input.classList.add('btn-primary')
+        input.classList.add(size)
+        input.value = value
 
 
 
+        if (event == 'displayNumber') {
+
+          input.addEventListener('click', this.displayNumber.bind(this.title))
 
 
-      //CREA LOS NUMEROS DEL 1 AL 9 CON UN BUCLE
-      //TAMBIEN EL RESTO DE BOTONES 
-      //Y LES AÑADE SU EVENTO CORRESPONDIENTE
-      //FINALMENTE LOS COLOCA EN SU SITIO
-      addButtons() {
+        }
 
-        let button;
-        let content = document.querySelector('.content');
-
-        for (let index = 0; index < 10; index++) {
-
-          button = document.createElement('button')
-          button.value = index
-          button.innerHTML = index
-
-          content.appendChild(button)
+        if (event == 'sum') {
 
 
 
         }
-        
+
+
+
+
+
+
+
+
+
+        return input
+
+      }
+
+
+
+      addButtons() {
+
+
+        for (let index = 1; index < 10; index++) {
+
+          if (index == 1) {
+
+            this.content.appendChild(this.generateInput('0', 'col-3', 'displayNumber'))
+            this.content.appendChild(this.generateInput(',', 'col-4', 'displayNumber'))
+            this.content.appendChild(this.generateInput('C', 'col-5'))
+
+          }
+
+
+          this.content.appendChild(this.generateInput(index, 'col-3', 'displayNumber'))
+
+
+          if (index == 3) {
+
+            this.content.appendChild(this.generateInput('x', 'col-3'))
+
+          }
+
+          if (index == 6) {
+
+            this.content.appendChild(this.generateInput('-', 'col-3'))
+
+          }
+
+          if (index == 9) {
+
+            this.content.appendChild(this.generateInput('+', 'col-3'))
+            this.content.appendChild(this.generateInput('=', 'col-9'))
+            this.content.appendChild(this.generateInput('/', 'col-3'))
+
+          }
+
+
+
+
+        }
 
 
       }
 
 
 
+      displayNumber(e) {
+
+        this.value += e.target.value
+
+      }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      displayNumber() { }
 
       reset() { }
 
@@ -378,19 +405,14 @@
 
 
 
+
+
     let a = new windows();
     a.setTitle('hola')
     a.setContent('hdfoighiorbggiupowc')
 
-    let b = new windows({posX:300, posY:300});
-    b.setTitle('adios')
-    b.setContent('aaaaaaaaaaaaaaaaaa')
-  
-  
-  
-  
-    // let b = new calculator({posX:300,posY:300});
-    //b.addButtons();
+    let b = new calculator({ posX: 300, posY: 300 });
+   
 
   </script>
 
