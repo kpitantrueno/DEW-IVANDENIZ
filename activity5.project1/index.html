@@ -35,6 +35,11 @@
           of the window</li>
       </ul>
     </li>
+   
+   
+   
+   
+   
     <li>Create <strong>Calculator</strong> class:
       <ul>
         <li>Calculator inherits from "Window" class.</li>
@@ -69,11 +74,21 @@
     .display {
 
       text-align: right;
-      height: 20%;
+      height: 15%;
 
 
 
     }
+
+
+    .displayTotal{
+
+      text-align: right;
+      height: 10%;
+
+    }
+
+
 
     .window {
 
@@ -90,8 +105,8 @@
 
       border: solid 1px;
       background-color: green;
-      height: 80%;
-      overflow: scroll;
+      height: 70%;
+     
 
     }
 
@@ -195,6 +210,13 @@
 
 
 
+
+
+
+
+
+
+
         //TITULO-DISPLAY
         this.title = document.createElement('input');
         this.title.type = 'text';
@@ -267,6 +289,22 @@
         this.total = null;
         this.num = null;
         this.operator=null;
+        this.resum=null;
+
+        this.aux1;
+        
+
+        //RESUMEN DE LA OPERACION
+        this.displayTotal = document.createElement('input');
+        this.displayTotal.type = 'text';
+        this.displayTotal.classList.add('total');
+        this.displayTotal.classList.add('form-control');
+        
+
+        
+        this.title.insertAdjacentElement('beforebegin',this.displayTotal);
+        
+
         
 
 
@@ -397,9 +435,11 @@
       reset() {
 
         this.title.value = '';
+        this.displayTotal.value='';
         this.operator=null;
         this.num=null;
         this.total=null;
+        this.resum=null;
 
       }
 
@@ -410,17 +450,30 @@
         
         if (this.total!=null) {
           
-          
+
           this.num = parseInt((this.title.value));
           this.total =  this.num + this.total;
           this.title.value= '';
           this.operator==null;
+
+
+          if (this.resum.indexOf('=') != -1) {
+            
+             this.resum= this.resum.slice(0,) + this.operator;
+
+          }
+            
+          this.resum += this.num + '=' + this.total; 
+          this.displayTotal.value = this.resum;
+
 
         }else{
 
           this.operator='+'
           this.total = parseInt((this.title.value));
           this.title.value= '';
+          this.resum= this.total + this.operator;
+          this.displayTotal.value = this.resum;
 
         }
     
@@ -442,15 +495,17 @@
           
           this.num = parseInt((this.title.value));
           this.total=  this.total +  this.num;
-          
-       
           this.title.value =  this.total;
-          
+         
+          if (this.resum.indexOf('=') != -1) {          
+            this.resum= this.resum.slice(0,) + this.operator;
+         }
+
+          this.resum+=this.num + '=' + this.total;
+          this.displayTotal.value = this.resum;
 
         }
-        
-        
-        
+         
         
         this.total=null;
         this.num=null;
