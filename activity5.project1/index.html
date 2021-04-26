@@ -372,7 +372,7 @@
           if (index == 1) {
 
             this.content.appendChild(this.generateInput('0', 'col-3', 'displayNumber'))
-            this.content.appendChild(this.generateInput(',', 'col-4', 'displayNumber'))
+            this.content.appendChild(this.generateInput('.', 'col-4', 'displayNumber'))
             this.content.appendChild(this.generateInput('C', 'col-5', 'reset'))
 
           }
@@ -416,7 +416,14 @@
        
 
         
-   
+          if(this.operator=='='){
+
+            this.title.value='';
+            this.displayTotal.value='';
+            this.operator=null;
+            
+
+          }
           
           this.title.value += e.target.value
           
@@ -442,6 +449,19 @@
         this.resum=null;
 
       }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
       sum() {
@@ -487,6 +507,18 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
       result() {
 
 
@@ -509,7 +541,7 @@
         
         this.total=null;
         this.num=null;
-        this.operator=null;
+        this.operator='=';
        
 
       }
