@@ -81,7 +81,7 @@
     }
 
 
-    .displayTotal{
+    .displayTotal {
 
       text-align: right;
       height: 10%;
@@ -106,7 +106,7 @@
       border: solid 1px;
       background-color: green;
       height: 70%;
-     
+
 
     }
 
@@ -288,24 +288,22 @@
         this.addButtons();
         this.total = null;
         this.num = null;
-        this.operator=null;
-        this.resum=null;
+        this.operator = null;
+        this.resum = null;
+        this.areFloat = false;
 
         this.aux1;
-        
+
 
         //RESUMEN DE LA OPERACION
         this.displayTotal = document.createElement('input');
         this.displayTotal.type = 'text';
         this.displayTotal.classList.add('total');
         this.displayTotal.classList.add('form-control');
-        
 
-        
-        this.title.insertAdjacentElement('beforebegin',this.displayTotal);
-        
 
-        
+
+        this.title.insertAdjacentElement('beforebegin', this.displayTotal);
 
 
 
@@ -313,7 +311,43 @@
 
 
 
-      generateInput(value, size, event) {
+
+
+      eventManager(e) {
+
+
+
+      }
+
+
+
+
+
+      isFloat() {
+
+
+
+        this.areFloat = true;
+
+
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      generateInput(value, size) {
 
         let input
 
@@ -327,38 +361,51 @@
 
 
 
-        if (event == 'displayNumber') {
+
+        if (/1|2|3|4|5|6|7|8|9|0|\./.test(value)) {
 
           input.addEventListener('click', this.displayNumber.bind(this))
 
-
         }
 
-        if (event == 'reset') {
+
+        if (value == 'C') {
 
           input.addEventListener('click', this.reset.bind(this))
 
         }
 
 
-        if (event == 'sum') {
+        if (value == '+') {
 
           input.addEventListener('click', this.sum.bind(this))
 
         }
 
 
-        if (event == 'result') {
-          
+        if (value == '=') {
+
           input.addEventListener('click', this.result.bind(this))
 
         }
 
 
+        if (value == '.') {
+
+          input.addEventListener('click', this.isFloat.bind(this))
+
+        }
+
 
         return input
 
       }
+
+
+
+
+
+
 
 
 
@@ -371,14 +418,14 @@
 
           if (index == 1) {
 
-            this.content.appendChild(this.generateInput('0', 'col-3', 'displayNumber'))
-            this.content.appendChild(this.generateInput('.', 'col-4', 'displayNumber'))
-            this.content.appendChild(this.generateInput('C', 'col-5', 'reset'))
+            this.content.appendChild(this.generateInput('0', 'col-3'))
+            this.content.appendChild(this.generateInput('.', 'col-4'))
+            this.content.appendChild(this.generateInput('C', 'col-5'))
 
           }
 
 
-          this.content.appendChild(this.generateInput(index, 'col-3', 'displayNumber'))
+          this.content.appendChild(this.generateInput(index, 'col-3'))
 
 
           if (index == 3) {
@@ -395,8 +442,8 @@
 
           if (index == 9) {
 
-            this.content.appendChild(this.generateInput('+', 'col-3', 'sum'))
-            this.content.appendChild(this.generateInput('=', 'col-9','result'))
+            this.content.appendChild(this.generateInput('+', 'col-3'))
+            this.content.appendChild(this.generateInput('=', 'col-9'))
             this.content.appendChild(this.generateInput('/', 'col-3'))
 
           }
@@ -411,23 +458,29 @@
 
 
 
+
+
+
+
+
+
       displayNumber(e) {
 
-       
 
-        
-          if(this.operator=='='){
 
-            this.title.value='';
-            this.displayTotal.value='';
-            this.operator=null;
-            
 
-          }
-          
-          this.title.value += e.target.value
-          
-      
+        if (this.operator == '=') {
+
+          this.title.value = '';
+          this.displayTotal.value = '';
+          this.operator = null;
+
+
+        }
+
+        this.title.value += e.target.value
+
+
 
 
       }
@@ -442,11 +495,13 @@
       reset() {
 
         this.title.value = '';
-        this.displayTotal.value='';
-        this.operator=null;
-        this.num=null;
-        this.total=null;
-        this.resum=null;
+        this.displayTotal.value = '';
+        this.operator = null;
+        this.num = null;
+        this.total = null;
+        this.resum = null;
+        this.areFloat=false;
+
 
       }
 
@@ -467,38 +522,80 @@
       sum() {
 
 
-        
-        if (this.total!=null) {
-          
 
-          this.num = parseInt((this.title.value));
-          this.total =  this.num + this.total;
-          this.title.value= '';
-          this.operator==null;
+
+
+        if (this.total != null) {
+
+
+          if (this.areFloat) {
+            
+           
+           // this.total = parseFloat(this.total)
+            this.num = parseFloat(this.title.value)
+            
+          } else {
+            
+            
+            //this.total = parseInt(this.total)
+            this.num = parseInt(this.title.value)
+
+          }
+
+
+
+         // this.num = this.title.value;
+          this.total = this.num + this.total;
+          this.title.value = '';
+          this.operator == null;
+
+
+
 
 
           if (this.resum.indexOf('=') != -1) {
-            
-             this.resum= this.resum.slice(0,) + this.operator;
+
+            this.resum = this.resum.slice(0,) + this.operator;
 
           }
-            
-          this.resum += this.num + '=' + this.total; 
+
+
+
+
+
+          this.resum += this.num + '=' + this.total;
           this.displayTotal.value = this.resum;
 
 
-        }else{
 
-          this.operator='+'
-          this.total = parseInt((this.title.value));
-          this.title.value= '';
-          this.resum= this.total + this.operator;
+        } else {
+
+
+          
+          if (this.areFloat) {
+
+            this.total = parseFloat(this.title.value)
+          //  this.num = parseFloat(this.num)
+            
+          } else {
+            
+            
+            this.total = parseInt(this.title.value)
+          //  this.num = parseInt(this.num)
+
+          }
+
+
+
+          this.operator = '+'
+          this.title.value = '';
+          this.resum = this.total + this.operator;
           this.displayTotal.value = this.resum;
 
         }
-    
 
-   
+
+
 
 
       }
@@ -522,27 +619,41 @@
       result() {
 
 
-       
-        if (this.operator=='+') {
-          
-          this.num = parseInt((this.title.value));
-          this.total=  this.total +  this.num;
-          this.title.value =  this.total;
-         
-          if (this.resum.indexOf('=') != -1) {          
-            this.resum= this.resum.slice(0,) + this.operator;
-         }
 
-          this.resum+=this.num + '=' + this.total;
+        if (this.operator == '+') {
+
+
+          if (this.areFloat) {
+
+            this.total = parseFloat(this.total)
+            this.num = parseFloat(this.title.value)
+
+          } else {
+
+            this.total = parseInt(this.total)
+            this.num = parseInt(this.title.value)
+
+          }
+
+
+         // this.num = this.title.value;
+          this.total = this.total + this.num;
+          this.title.value = this.total;
+
+          if (this.resum.indexOf('=') != -1) {
+            this.resum = this.resum.slice(0,) + this.operator;
+          }
+
+          this.resum += this.num + '=' + this.total;
           this.displayTotal.value = this.resum;
 
         }
-         
-        
-        this.total=null;
-        this.num=null;
-        this.operator='=';
-       
+
+
+        this.total = null;
+        this.num = null;
+        this.operator = '=';
+
 
       }
 
