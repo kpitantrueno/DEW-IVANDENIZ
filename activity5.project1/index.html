@@ -290,9 +290,9 @@
         this.num = null;
         this.operator = null;
         this.resum = null;
-       
 
-        
+
+
 
 
         //RESUMEN DE LA OPERACION
@@ -313,7 +313,7 @@
 
 
 
-    
+
 
 
 
@@ -467,7 +467,7 @@
         this.num = null;
         this.total = null;
         this.resum = null;
-       
+
       }
 
 
@@ -482,26 +482,20 @@
 
       checkNumber(num) {
 
-
-        if (/\./.test(num)) {
-
-          num = parseFloat(num)
-
-        } else {
-
-          num = parseInt(num)
-
-        }
-
-
         if (isNaN(num)) {
-
 
           return 'NaN';
 
         } else {
 
-          return num;
+          if (/\./.test(num)) {
+
+            return parseFloat(num);
+
+          } else {
+
+            return parseInt(num);
+          }
 
         }
 
@@ -513,7 +507,7 @@
 
 
 
-     
+
 
 
 
@@ -532,37 +526,21 @@
 
         if (this.total != null) {
 
-          this.num = this.checkNumber(this.title.value);
-          if (this.num != 'NaN') {
+            (this.num = this.checkNumber(this.title.value)) != 'NaN' ?
+            (this.total = this.num + this.total,
+              this.title.value = '',
+              this.operator == null,
+              this.resume(true)) : (null);
 
-            this.total = this.num + this.total;
-            this.title.value = '';
-            this.operator == null;
-
-            if (this.resum.indexOf('=') != -1) {
-
-              this.resum = this.resum.slice(0,) + this.operator;
-
-            }
-
-            this.resum += this.num + '=' + this.total;
-            this.displayTotal.value = this.resum;
-
-          }
 
         } else {
-
-          this.total = this.checkNumber(this.title.value);
-          if (this.total != 'NaN') {
-            this.operator = '+'
-            this.title.value = '';
-            this.resum = this.total + this.operator;
-            this.displayTotal.value = this.resum;
-          }
-
+          
+         (this.total = this.checkNumber(this.title.value)) != 'NaN' ?
+          (this.operator = '+',
+          this.title.value = '',
+          this.resume(false)) : (null);
 
         }
-
 
       }
 
@@ -570,6 +548,41 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      resume(finish) {
+
+        if (finish) {
+
+          if (this.resum.indexOf('=') != -1) {
+
+            this.resum = this.resum.slice(0,) + this.operator;
+
+          }
+
+          this.resum += this.num + '=' + this.total;
+          this.displayTotal.value = this.resum;
+
+        } else {
+
+          this.resum = this.total + this.operator;
+          this.displayTotal.value = this.resum;
+
+        }
+
+      }
 
 
 
@@ -707,6 +720,51 @@
     let b = new calculator({ posX: 300, posY: 300 });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           /*
+          this.num = this.checkNumber(this.title.value);
+         
+          if (this.num != 'NaN') {
+
+            this.total = this.num + this.total;
+            this.title.value = '';
+            this.operator == null;
+            this.resume(true);
+
+          }
+*/
+
+
+
+   /* 
+          this.total = this.checkNumber(this.title.value);
+
+          if (this.total != 'NaN') {
+            this.operator = '+'
+            this.title.value = '';
+            this.resume(false);
+
+          }
+*/
+
+
+
   </script>
 
 
@@ -714,3 +772,9 @@
 </body>
 
 </html>
+
+
+
+
+
+
