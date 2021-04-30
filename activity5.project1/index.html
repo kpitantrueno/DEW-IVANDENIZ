@@ -347,6 +347,31 @@
 
         }
 
+        /*
+
+        if (/\+|x|-|\//.test(value)) {
+
+          input.addEventListener('click', this.sum.bind(this))
+
+        }
+*/
+
+
+if (value=='+') {
+
+input.addEventListener('click', this.sum.bind(this))
+
+}
+
+
+
+if (value=='x') {
+
+input.addEventListener('click', this.sum.bind(this))
+
+}
+
+
 
         if (value == 'C') {
 
@@ -355,22 +380,13 @@
         }
 
 
-        if (value == '+') {
-
-          input.addEventListener('click', this.sum.bind(this))
-
-        }
-
-
         if (value == '=') {
 
-          input.addEventListener('click', this.result.bind(this))
+         // input.addEventListener('click', this.result.bind(this))
 
         }
 
-
-
-
+       
         return input
 
       }
@@ -513,6 +529,28 @@
 
 
 
+operation (operator){
+
+  console.log(operator);
+
+
+    switch(operator){
+
+        case '+': 
+        //  console.log('simbolo +');
+          return (this.num + this.total);
+          break;
+
+
+        case 'x': 
+          //console.log('simbolo x');
+          return (this.num * this.total);
+          break;
+
+    }
+
+
+}
 
 
 
@@ -522,21 +560,100 @@
 
 
 
-      sum() {
+
+
+
+
+
+
+
+sum(e){
+
+
+  if(this.operator!=null){
+
+
+    if(this.operator!=e.target.value){
+
+      (this.num = this.checkNumber(this.title.value)) != 'NaN' ?
+            (this.total = this.operation(this.operator),
+              //this.total = this.num + this.total,
+              this.title.value = '',
+              this.resume(true)) : (null),
+              this.operator = e.target.value;
+
+    }else{
+
+      
+      
+      
+      (this.num = this.checkNumber(this.title.value)) != 'NaN' ?
+      (this.total = this.operation(e.target.value),
+      //this.total = this.num + this.total,
+      this.title.value = '',
+      //this.operator = e.target.value,
+      this.resume(true)) : (null);
+      
+      
+    }
+
+
+  }else{
+      
+      (this.total = this.checkNumber(this.title.value)) != 'NaN' ?
+      (this.operator = e.target.value,
+      this.title.value = '',
+      this.resume(false)) : (null);
+    
+  }  
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      sum2(e) {
+
+
+        console.log('metodo sum :'+e.target.value)
+
 
         if (this.total != null) {
 
+          //realiza la operacion anterior primero
+         // this.total = this.operation(this.operator);
+          
+
+
+
+         //this.operator == e.target.value;
+
             (this.num = this.checkNumber(this.title.value)) != 'NaN' ?
-            (this.total = this.num + this.total,
+            (this.total = this.operation(this.operator),
+              //this.total = this.num + this.total,
               this.title.value = '',
-              this.operator == null,
+              this.operator == e.target.value,
               this.resume(true)) : (null);
 
 
         } else {
           
          (this.total = this.checkNumber(this.title.value)) != 'NaN' ?
-          (this.operator = '+',
+         (this.operator = e.target.value,
           this.title.value = '',
           this.resume(false)) : (null);
 
@@ -616,7 +733,7 @@
 
 
       result() {
-
+/*
 
         if (this.operator == '+') {
 
@@ -652,7 +769,7 @@
         this.num = null;
         this.operator = '=';
 
-
+*/
       }
 
 
@@ -680,7 +797,7 @@
 
       division() { }
 
-      multiplication() { }
+      
 
 
 
