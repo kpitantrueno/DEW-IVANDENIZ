@@ -382,7 +382,7 @@ input.addEventListener('click', this.sum.bind(this))
 
         if (value == '=') {
 
-         // input.addEventListener('click', this.result.bind(this))
+          input.addEventListener('click', this.result.bind(this))
 
         }
 
@@ -581,10 +581,10 @@ sum(e){
               this.title.value = '',
               this.resume(true)) : (null),
               this.operator = e.target.value;
-
+              
+             // console.log('venir a por mi');
     }else{
 
-      
       
       
       (this.num = this.checkNumber(this.title.value)) != 'NaN' ?
@@ -597,10 +597,11 @@ sum(e){
       
     }
 
-
+    
   }else{
       
-      (this.total = this.checkNumber(this.title.value)) != 'NaN' ?
+
+    (this.total = this.checkNumber(this.title.value)) != 'NaN' ?
       (this.operator = e.target.value,
       this.title.value = '',
       this.resume(false)) : (null);
@@ -626,53 +627,7 @@ sum(e){
 
 
 
-      sum2(e) {
-
-
-        console.log('metodo sum :'+e.target.value)
-
-
-        if (this.total != null) {
-
-          //realiza la operacion anterior primero
-         // this.total = this.operation(this.operator);
-          
-
-
-
-         //this.operator == e.target.value;
-
-            (this.num = this.checkNumber(this.title.value)) != 'NaN' ?
-            (this.total = this.operation(this.operator),
-              //this.total = this.num + this.total,
-              this.title.value = '',
-              this.operator == e.target.value,
-              this.resume(true)) : (null);
-
-
-        } else {
-          
-         (this.total = this.checkNumber(this.title.value)) != 'NaN' ?
-         (this.operator = e.target.value,
-          this.title.value = '',
-          this.resume(false)) : (null);
-
-        }
-
-      }
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 
 
@@ -732,44 +687,14 @@ sum(e){
 
 
 
-      result() {
-/*
-
-        if (this.operator == '+') {
+      result(e) {
 
 
-          if (this.areFloat) {
-
-            this.total = parseFloat(this.total)
-            this.num = parseFloat(this.title.value)
-
-          } else {
-
-            this.total = parseInt(this.total)
-            this.num = parseInt(this.title.value)
-
-          }
+        this.sum(e);
+        this.title.value=this.total;
+        this.operator=null;
 
 
-          // this.num = this.title.value;
-          this.total = this.total + this.num;
-          this.title.value = this.total;
-
-          if (this.resum.indexOf('=') != -1) {
-            this.resum = this.resum.slice(0,) + this.operator;
-          }
-
-          this.resum += this.num + '=' + this.total;
-          this.displayTotal.value = this.resum;
-
-        }
-
-
-        this.total = null;
-        this.num = null;
-        this.operator = '=';
-
-*/
       }
 
 
@@ -786,18 +711,6 @@ sum(e){
 
 
 
-
-
-
-
-
-
-
-      subtraction() { }
-
-      division() { }
-
-      
 
 
 
