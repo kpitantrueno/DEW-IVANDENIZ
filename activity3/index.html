@@ -41,15 +41,26 @@
 
       <script>
 
+
+
+
         let buttonCreate = document.querySelector('#crear');
 
-
-
-        
+     
         buttonCreate.addEventListener('click', function(){
           
+
+          let td;
+          let th;
+          let tr;
+          let table;
+          let colums;
+          let rows;
+
+
+
           
-          let table = document.querySelector('table');
+          table = document.querySelector('table');
          
           table.innerHTML='';
 
@@ -57,39 +68,41 @@
          
           table.style.marginTop = '20px';
 
-          let colums = document.querySelector('#columnas').value;
-          let rows = document.querySelector('#filas').value;
+          colums = document.querySelector('#columnas').value;
+
+          rows = document.querySelector('#filas').value;
           
          
 
 
-          
+      
 
 
 
-          let th = document.createElement('th');
+
+
+
+          tr = document.createElement('tr');
+
+          th = document.createElement('th');
 
           th.textContent = ' XY ';
 
-          table.appendChild(th);
-
-
-
+          tr.appendChild(th);
 
           for (let index = 0; index < colums; index++) {
             
-            let th = document.createElement('th');
+            th = document.createElement('th');
 
             th.textContent = 'Columna '+ (index+1);
 
             th.style.textAlign= 'center';
 
-            table.appendChild(th);
-
-
+            tr.appendChild(th)
 
           }
 
+          table.appendChild(tr);
 
       
 
@@ -102,61 +115,48 @@
           for (let j = 0; j < rows; j++) {
              
 
-             let tr = document.createElement('tr');
+             tr = document.createElement('tr');
+
+             td = document.createElement('td')
              
-             tr.textContent = 'fila '+ (j+1) ;
+             td.textContent = 'fila '+ (j+1);
 
-             tr.style.textAlign= 'center';
+             td.style.textAlign= 'center';
              
-          
-
-             table.appendChild(tr);
-
-
-             let numTr = parseInt( document.querySelector('table').rows.length,10) ;
+             tr.appendChild(td);
+                    
              
-             let lastTr = document.querySelector('table').rows[numTr-1];
-
-            
-
-
-            
-              
-              for (let i = 0; i < colums; i++) {
+                    
+             
+             for (let i = 0; i < colums; i++) {
                 
-
-                let td = document.createElement('td');
+               
+               td = document.createElement('td');
+               
+               td.textContent = 'C'+ (i+1)+"F"+(j+1);
                 
-                td.textContent = 'C'+ (i+1)+""+(j+1);
-                
-                td.style.textAlign= 'center';
-                
-                lastTr.appendChild(td);
-                
-
-
+               td.style.textAlign= 'center';
+               
+               tr.appendChild(td);
+               
+               
+               
               }
+              
+              
 
+              table.appendChild(tr);
+              
+              
+            }
             
-
-             
-          }
-
-
-
-
-
-
-
-
-
-
-
-
+            
 
 
         });
 
       </script>
+
   </body>
+
 </html>

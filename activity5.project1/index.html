@@ -364,6 +364,11 @@ input.addEventListener('click', this.sum.bind(this))
 
 }
 
+if (value=='-') {
+
+input.addEventListener('click', this.sum.bind(this))
+
+}
 
 
 if (value=='x') {
@@ -372,6 +377,13 @@ input.addEventListener('click', this.sum.bind(this))
 
 }
 
+
+
+if (value=='/') {
+
+input.addEventListener('click', this.sum.bind(this))
+
+}
 
 
         if (value == 'C') {
@@ -540,13 +552,25 @@ operation (operator){
 
         case '+': 
         //  console.log('simbolo +');
-          return (this.num + this.total);
+          return (this.total + this.num);
           break;
 
 
         case 'x': 
           //console.log('simbolo x');
-          return (this.num * this.total);
+          return (this.total * this.num);
+          break;
+
+
+          case '-': 
+          //console.log('simbolo x');
+          return (this.total - this.num);
+          break;
+
+
+          case '/': 
+          //console.log('simbolo x');
+          return (this.total / this.num);
           break;
 
     }
@@ -755,7 +779,6 @@ sum(e){
     let element = document.createElement('div');
     element.innerText ='ejemplo fdksafhiahfiap';
     a.setContent(element);
-
 
 
     //CREP LA CALCULADORA
