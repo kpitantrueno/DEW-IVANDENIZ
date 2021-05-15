@@ -254,7 +254,8 @@
 
       setContent(param) {
 
-        this.content.innerHTML = param;
+        this.content.innerHTML='';
+        this.content.appendChild(param);
 
       }
 
@@ -456,11 +457,12 @@ input.addEventListener('click', this.sum.bind(this))
 
       displayNumber(e) {
 
-        if (this.operator == '=') {
+        if (this.operator == null & this.total!=null) {
 
           this.title.value = '';
           this.displayTotal.value = '';
           this.operator = null;
+         // this.total=null;
 
         }
 
@@ -654,6 +656,8 @@ sum(e){
 
         }
 
+        
+
       }
 
 
@@ -693,6 +697,9 @@ sum(e){
         this.sum(e);
         this.title.value=this.total;
         this.operator=null;
+
+
+     
 
 
       }
@@ -742,11 +749,16 @@ sum(e){
 
 
 
-
+    //CREO LA VENTANA
     let a = new windows();
     a.setTitle('hola')
-    a.setContent('hdfoighiorbggiupowc')
+    let element = document.createElement('div');
+    element.innerText ='ejemplo fdksafhiahfiap';
+    a.setContent(element);
 
+
+
+    //CREP LA CALCULADORA
     let b = new calculator({ posX: 300, posY: 300 });
 
 
