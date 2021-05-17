@@ -158,24 +158,6 @@
   <script>
 
 
-    /*
-    
-        let buttons = document.getElementsByClassName('btn');
-          
-          for (let index = 0; index < buttons.length; index++) {
-            
-             buttons[index].addEventListener('click', function() {
-               
-             let dp = (document.getElementsByClassName('display'))
-    
-             dp[0].value += buttons[index].value
-    
-             })
-    
-          }
-    
-    
-      */
 
 
 
@@ -342,7 +324,7 @@
 
 
 
-        if (/1|2|3|4|5|6|7|8|9|0|\./.test(value)) {
+        if (/1|2|3|4|5|6|7|8|9|0|\-|\./.test(value)) {
 
           input.addEventListener('click', this.displayNumber.bind(this))
 
@@ -469,16 +451,34 @@ input.addEventListener('click', this.sum.bind(this))
 
       displayNumber(e) {
 
-        if (this.operator == null & this.total!=null) {
 
-          this.title.value = '';
+
+        if (this.operator == null & this.total!=null & e.target.value!='-') {
+
+          console.log('displaynumber borro todo');
+
+          this.title.value = e.target.value;
           this.displayTotal.value = '';
           this.operator = null;
           this.total=null;
 
+        }else{
+
+
+              if(this.title.value=='' & e.target.value=='-'){
+           
+                this.title.value = '-'
+                              
+              }else if(e.target.value!='-'){
+            
+                this.title.value += e.target.value
+                     
+              }
+
         }
 
-        this.title.value += e.target.value
+
+
 
       }
 
@@ -551,25 +551,25 @@ operation (operator){
     switch(operator){
 
         case '+': 
-        //  console.log('simbolo +');
+      
           return (this.total + this.num);
           break;
 
 
         case 'x': 
-          //console.log('simbolo x');
+          
           return (this.total * this.num);
           break;
 
 
           case '-': 
-          //console.log('simbolo x');
+          
           return (this.total - this.num);
           break;
 
 
           case '/': 
-          //console.log('simbolo x');
+          
           return (this.total / this.num);
           break;
 
@@ -596,68 +596,48 @@ operation (operator){
 sum(e){
 
 
+  if(this.title.value!='-'){
+
+          if(this.operator!=null & this.title.value!=''){
 
 
+                  if(this.operator!=e.target.value){
 
+                    (this.num = this.checkNumber(this.title.value)) != 'NaN' ?
+                          (this.total = this.operation(this.operator),
+                            this.title.value = '',
+                            this.resume(true)) : (null),
+                            this.operator = e.target.value;
+                            
+                        
+                  }else{
 
-  if(this.operator!=null & this.title.value!=''){
-
-
-          if(this.operator!=e.target.value){
-
-            (this.num = this.checkNumber(this.title.value)) != 'NaN' ?
-                  (this.total = this.operation(this.operator),
-                    //this.total = this.num + this.total,
+                                      
+                    (this.num = this.checkNumber(this.title.value)) != 'NaN' ?
+                    (this.total = this.operation(e.target.value),
                     this.title.value = '',
-                    this.resume(true)) : (null),
-                    this.operator = e.target.value;
+                    this.resume(true)) : (null);
                     
-                  // console.log('venir a por mi');
-          }else{
+                    
+                  }
 
             
+          }else  if(this.operator==null & this.title.value!=''){
+                        
+
+            (this.total = this.checkNumber(this.title.value)) != 'NaN' ?
+              (this.operator = e.target.value,
+              this.title.value = '',
+              this.resume(false)) : (null);
             
-            (this.num = this.checkNumber(this.title.value)) != 'NaN' ?
-            (this.total = this.operation(e.target.value),
-            //this.total = this.num + this.total,
-            this.title.value = '',
-            //this.operator = e.target.value,
-            this.resume(true)) : (null);
-            
-            
-          }
+          }  
 
-    
-  }else  if(this.operator==null & this.title.value!=''){
-      
+  }
 
-    (this.total = this.checkNumber(this.title.value)) != 'NaN' ?
-      (this.operator = e.target.value,
-      this.title.value = '',
-      this.resume(false)) : (null);
-    
-  }  
+}//FIN DEL METODO
 
 
 
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
 
 
 
@@ -724,41 +704,12 @@ sum(e){
         if(this.title.value!='' & this.total!=null & this.operator!=null){
 
           this.sum(e);
-        this.title.value=this.total;
-        this.operator=null;
+          this.title.value=this.total;
+          this.operator=null;
 
         }
 
-
-        
-
-
-     
-
-
       }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 
@@ -795,48 +746,6 @@ sum(e){
     let b = new calculator({ posX: 300, posY: 300 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-           /*
-          this.num = this.checkNumber(this.title.value);
-         
-          if (this.num != 'NaN') {
-
-            this.total = this.num + this.total;
-            this.title.value = '';
-            this.operator == null;
-            this.resume(true);
-
-          }
-*/
-
-
-
-   /* 
-          this.total = this.checkNumber(this.title.value);
-
-          if (this.total != 'NaN') {
-            this.operator = '+'
-            this.title.value = '';
-            this.resume(false);
-
-          }
-*/
 
 
 
