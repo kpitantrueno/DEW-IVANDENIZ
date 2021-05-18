@@ -10,7 +10,65 @@
   <script src="js/bootstrap.min.js"></script>
 
   <title>Activity 5: Objects</title>
+
+
+  <style>
+    .display {
+
+      text-align: right;
+      height: 15%;
+
+
+
+    }
+
+
+    .displayTotal {
+
+      text-align: right;
+      height: 10%;
+
+    }
+
+
+
+    .window {
+
+      border: solid 1px;
+      width: 500px;
+      height: 500px;
+      background-color: red;
+      position: absolute;
+
+    }
+
+
+    .content {
+
+      border: solid 1px;
+      background-color: green;
+      height: 70%;
+
+
+    }
+
+
+    .btn {
+
+      border: solid 1px;
+
+
+    }
+  </style>
+
+
+
 </head>
+
+
+
+
+
 
 <body>
 
@@ -70,54 +128,7 @@
  
 -->
 
-  <style>
-    .display {
-
-      text-align: right;
-      height: 15%;
-
-
-
-    }
-
-
-    .displayTotal {
-
-      text-align: right;
-      height: 10%;
-
-    }
-
-
-
-    .window {
-
-      border: solid 1px;
-      width: 500px;
-      height: 500px;
-      background-color: red;
-      position: absolute;
-
-    }
-
-
-    .content {
-
-      border: solid 1px;
-      background-color: green;
-      height: 70%;
-
-
-    }
-
-
-    .btn {
-
-      border: solid 1px;
-
-
-    }
-  </style>
+  
 
 
 
@@ -158,15 +169,6 @@
   <script>
 
 
-
-
-
-
-
-
-
-
-
     class windows {
 
 
@@ -188,14 +190,7 @@
         this.el.style.width = this.width + 'px';
         this.el.style.height = this.height + 'px';
         this.el.style.top = this.posX + 'px';
-        this.el.style.left = this.posX + 'px';
-
-
-
-
-
-
-
+        this.el.style.left = this.posY + 'px';
 
 
 
@@ -251,16 +246,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
     class calculator extends windows {
 
 
@@ -275,17 +260,11 @@
         this.resum = null;
 
 
-
-
-
-        //RESUMEN DE LA OPERACION
+        //DISPLAY DEL RESUMEN DE LA OPERACION
         this.displayTotal = document.createElement('input');
         this.displayTotal.type = 'text';
         this.displayTotal.classList.add('total');
         this.displayTotal.classList.add('form-control');
-
-
-
         this.title.insertAdjacentElement('beforebegin', this.displayTotal);
 
 
@@ -298,104 +277,85 @@
 
 
 
+//DEVUELVE LOS BOTONES DE LA CALCULADORA CON SUS RESPECTIVOS EVENTOS
+generateInput(value, size) {
+
+
+    let input
+
+
+    input = document.createElement('input')
+    input.type = 'button'
+    input.classList.add('btn')
+    input.classList.add('btn-primary')
+    input.classList.add(size)
+    input.value = value
 
 
 
 
+    if (/1|2|3|4|5|6|7|8|9|0|\-|\./.test(value)) {
+
+    input.addEventListener('click', this.displayNumber.bind(this))
+
+    }
+
+
+    if (value=='+') {
+
+    input.addEventListener('click', this.operationConfig.bind(this))
+
+    }
+
+    if (value=='-') {
+
+    input.addEventListener('click', this.operationConfig.bind(this))
+
+    }
+
+
+    if (value=='x') {
+
+    input.addEventListener('click', this.operationConfig.bind(this))
+
+    }
 
 
 
+    if (value=='/') {
+
+    input.addEventListener('click', this.operationConfig.bind(this))
+
+    }
 
 
+    if (value == 'C') {
+
+    input.addEventListener('click', this.reset.bind(this))
+
+    }
 
 
-      generateInput(value, size) {
+    if (value == '=') {
 
-        let input
+    input.addEventListener('click', this.result.bind(this))
 
+    }
 
-        input = document.createElement('input')
-        input.type = 'button'
-        input.classList.add('btn')
-        input.classList.add('btn-primary')
-        input.classList.add(size)
-        input.value = value
+          
+    return input
 
 
-
-
-        if (/1|2|3|4|5|6|7|8|9|0|\-|\./.test(value)) {
-
-          input.addEventListener('click', this.displayNumber.bind(this))
-
-        }
-
-        /*
-
-        if (/\+|x|-|\//.test(value)) {
-
-          input.addEventListener('click', this.sum.bind(this))
-
-        }
-*/
-
-
-if (value=='+') {
-
-input.addEventListener('click', this.sum.bind(this))
 
 }
 
-if (value=='-') {
-
-input.addEventListener('click', this.sum.bind(this))
-
-}
-
-
-if (value=='x') {
-
-input.addEventListener('click', this.sum.bind(this))
-
-}
-
-
-
-if (value=='/') {
-
-input.addEventListener('click', this.sum.bind(this))
-
-}
-
-
-        if (value == 'C') {
-
-          input.addEventListener('click', this.reset.bind(this))
-
-        }
-
-
-        if (value == '=') {
-
-          input.addEventListener('click', this.result.bind(this))
-
-        }
-
-       
-        return input
-
-      }
 
 
 
 
 
 
-
-
-
-
-
+      //DISTRIBUYE LOS BOTONES DE LA CALCULADORA EN EL CONTENT
       addButtons() {
 
 
@@ -434,8 +394,6 @@ input.addEventListener('click', this.sum.bind(this))
           }
 
 
-
-
         }
 
 
@@ -448,27 +406,30 @@ input.addEventListener('click', this.sum.bind(this))
 
 
 
-
+      //ESTE METODO SE ENCARGA DE PINTAR LOS NUMEROS EN EL DISPLAY
       displayNumber(e) {
 
 
-
+        //EN CASO DE QUE UNA OPERACION HAYA TERMINADO Y EL USUARIO PULSE UN NUEVO NUMERO
+        //BORRA TODAS LAS VARIABLES PARA COMENZAR UNA NUEVA OPERACION Y PINTA EL NUMERO PULSADO
         if (this.operator == null & this.total!=null & e.target.value!='-') {
 
-          console.log('displaynumber borro todo');
 
           this.title.value = e.target.value;
           this.displayTotal.value = '';
           this.operator = null;
           this.total=null;
 
+
+        //SI CONTINUA LA OPERACION ACTUAL  
         }else{
 
-
+              //PARA PONER UN NUMERO NEGATIVO SI EL DISPLAY ESTA VACIO Y EL BOTON PULSADO FUE EL MENOS
               if(this.title.value=='' & e.target.value=='-'){
            
                 this.title.value = '-'
-                              
+               
+              //SI NO SE PULSÓ EL SIMBOLO - CONCATENA EL NUMERO PULSADO CON LOS QUE YA HABIA  
               }else if(e.target.value!='-'){
             
                 this.title.value += e.target.value
@@ -478,8 +439,6 @@ input.addEventListener('click', this.sum.bind(this))
         }
 
 
-
-
       }
 
 
@@ -487,8 +446,7 @@ input.addEventListener('click', this.sum.bind(this))
 
 
 
-
-
+      //BORRA LOS DISPLAYS Y RESETEA TODAS LAS VARIABLES PARA COMENZAR UNA NUEVA OPERACION
       reset() {
 
         this.title.value = '';
@@ -505,11 +463,7 @@ input.addEventListener('click', this.sum.bind(this))
 
 
 
-
-
-
-
-
+      //COMPRUEBA SI SE HA INTRODUCIDO UN NUMERO VALIDO
       checkNumber(num) {
 
         if (isNaN(num)) {
@@ -540,9 +494,7 @@ input.addEventListener('click', this.sum.bind(this))
 
 
 
-
-
-
+//REALIZA LA OPERACION MATEMATICA Y DEVUELVE EL RESULTADO
 operation (operator){
 
   console.log(operator);
@@ -585,22 +537,18 @@ operation (operator){
 
 
 
+//ESTE METODO CONFIGURA LA FORMA DE HACER LAS OPERACIONES (+-*/)
+operationConfig(e){
 
-
-
-
-
-
-
-
-sum(e){
-
-
+  //SI PULSAS EL BOTON MENOS NO CONFIGURES NADA PORQUE EL USUARIO NO QUIERE RESTAR
+  //QUIERE PONER UN NUMERO NEGATIVO
   if(this.title.value!='-'){
 
+          //SI ESTAS CONTINUANDO UNA OPERACION ENTRA AQUI
           if(this.operator!=null & this.title.value!=''){
 
-
+                  //SI EL OPERADOR PULSADO ES DIFERENTE DEL ANTERIOR
+                  //RESUELVE PRIMERO LA OPERACION ANTERIOR 
                   if(this.operator!=e.target.value){
 
                     (this.num = this.checkNumber(this.title.value)) != 'NaN' ?
@@ -609,7 +557,8 @@ sum(e){
                             this.resume(true)) : (null),
                             this.operator = e.target.value;
                             
-                        
+                  
+                  //SI SIGUES OPERANDO CON EL MISMO OPERADOR ENTRA AQUI 
                   }else{
 
                                       
@@ -622,6 +571,7 @@ sum(e){
                   }
 
             
+          //SI ESTAMOS EMPEZANDO UNA OPERACION DE CERO ENTRA AQUI  
           }else  if(this.operator==null & this.title.value!=''){
                         
 
@@ -634,7 +584,7 @@ sum(e){
 
   }
 
-}//FIN DEL METODO
+}
 
 
 
@@ -644,6 +594,10 @@ sum(e){
 
 
 
+
+
+      //ESTE METODO SOLO SE ENCARGA DE MONTAR EL RESUMEN DE LA OPERACION
+      //QUE SE MUESTRA EN EL DISPLAY SUPERIOR
       resume(finish) {
 
         if (finish) {
@@ -675,35 +629,12 @@ sum(e){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      //AL PULSAR EL SIMBOLO = REALIZA LA OPERACION Y MUESTRA EL RESULTADO FINAL
       result(e) {
 
         if(this.title.value!='' & this.total!=null & this.operator!=null){
 
-          this.sum(e);
+          this.operationConfig(e);
           this.title.value=this.total;
           this.operator=null;
 
@@ -719,23 +650,8 @@ sum(e){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //CREO LA VENTANA
-    let a = new windows();
+    let a = new windows({posX: 10, posY: 200});
     a.setTitle('hola')
     let element = document.createElement('div');
     element.innerText ='ejemplo fdksafhiahfiap';
@@ -743,7 +659,10 @@ sum(e){
 
 
     //CREP LA CALCULADORA
-    let b = new calculator({ posX: 300, posY: 300 });
+    let b = new calculator({ posX: 300, posY: 200 });
+
+    //CREP LA CALCULADORA
+    let c = new calculator({ posX: 300, posY: 700 });
 
 
 
