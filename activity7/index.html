@@ -32,39 +32,17 @@
   </ul>
 
 
-
-
-
+  <h2>**POR ALGUNA RAZON LAS CANCIONES SIGUEN UNOS SEGUNDOS MAS DE LO QUE INDICA EL AUDIO ANTES DE CAMBIAR A LA SIGUIENTE CANCION PERO FUNCIONA BIEN**</h2>
 
   <ol id="trackList">
-    <li><input id="1810 Beethoven- Fur Elise.mp3" type='submit' class="track" value='track 1'><i></i></li>
-    <li><input id="1729 Vivaldi , Mandoline Concerto in C, RV 425.mp3" type='submit' class="track" value='track 2'><i></i></li>
-    <li><input id="1721 Bach , Brandenburg Concerto No. 3, 1st movement.mp3" type='submit' class="track" value='track 3'><i></i></li>
+    <li><input id="1810 Beethoven- Fur Elise.mp3" type='submit' class="track" value='Beethoven- Fur Elise'><i></i></li>
+    <li><input id="1729 Vivaldi , Mandoline Concerto in C, RV 425.mp3" type='submit' class="track" value='Vivaldi , Mandoline'><i></i></li>
+    <li><input id="1721 Bach , Brandenburg Concerto No. 3, 1st movement.mp3" type='submit' class="track" value='Bach , Brandenburg'><i></i></li>
   </ol>
 
 
 
-
-
-
-
-  <div id="reproductor">
-
-
-    <!--
-    <audio controls >
-      <source src="1810 Beethoven- Fur Elise.mp3" type="audio/mpeg">
-      Your browser does not support the audio tag.
-    </audio>
--->
-
-
-
-  </div>
-
-
-
-
+  <div id="reproductor"></div>
 
 
 
@@ -76,13 +54,11 @@
 
 
 
-
-
   <script>
 
 
 
-
+    //AÑADE LOS EVENTOS A LOS CONTROLES DEL REPRODUCTOR
     function initControls() {
 
 
@@ -105,27 +81,31 @@
 
 
 
+    //BOTON PLAY PAUSE
     function playPause() {
 
       var play = document.getElementsByClassName('play');
 
+      //OBTENGO LA ETIQUETA <i>
       var iPlay = play[0].children[0];
 
+      //SI EL REPRODUCTOR ESTA PARADO LO CAMBIA A PLAY
       if (audio.paused) {
 
         audio.play()
 
         iPlay.classList.replace('fa-pause', 'fa-play')
 
-        trackSelected(audio.getAttribute(name), true)
+        trackSelected(true)
 
+      //SI EL REPRODUCTOR ESTA EN MARCHA LO PAUSA
       } else {
 
         audio.pause()
 
         iPlay.classList.replace('fa-play', 'fa-pause')
 
-        trackSelected(audio.getAttribute(name), false)
+        trackSelected(false)
 
       }
 
@@ -134,17 +114,21 @@
 
 
 
-
+    //SIGUIENTE CANCION
     function nextTrack() {
 
       var audio = document.getElementById("audio")
 
       var tracks = document.getElementsByClassName('track');
 
+      //RECORRE LA PLAYLIST
       for (let index = 0; index < tracks.length; index++) {
 
+        //SI EL ID DE LA CANCION COINCIDE CON LA QUE ESTÁ SONANDO EN EL REPRODUCTOR
         if (tracks[index].id == audio.getAttribute('name')) {
 
+          //SI ESTAS EN LA ULTIMA CANCION Y LE DAS A SIGUIENTE
+          //VUELVE AL PRINCIPIO Y SUENA LA PRIMERA CANCION
           if (index == tracks.length - 1) {
 
             audio.setAttribute('src', tracks[0].id)
@@ -155,6 +139,7 @@
 
             trackSelected(tracks[0].id, true)
 
+          //SI NO PONE LA SIGUIENTE CANCION
           } else {
 
             index += 1
@@ -165,7 +150,7 @@
 
             audio.play()
 
-            trackSelected(tracks[index].id, true)
+            trackSelected(true)
 
           }
 
@@ -182,7 +167,7 @@
 
 
 
-
+    //FUNCIONA IGUAL QUE EL METODO ANTERIOR PERO A LA INVERSA
     function previousTrack() {
 
       audio = document.getElementById("audio")
@@ -201,7 +186,7 @@
 
             audio.play()
 
-            trackSelected(tracks[0].id, true)
+            trackSelected(true)
 
 
           } else {
@@ -214,7 +199,7 @@
 
             audio.play()
 
-            trackSelected(tracks[index].id, true)
+            trackSelected(true)
 
           }
 
@@ -232,46 +217,37 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //METODO PRINCIPAL 
     function createAudio(defaultTrack) {
 
+      //INICIA CONTROLES
       initControls()
 
+      //PREPARA LA PLAYLIST Y OBTIENE LA PRIMERA CANCION DE LA LISTA
       var defaultTrack = trackList()
 
+      //CREA EL AUDIO
       nuevo_audio = document.createElement("audio")
 
-      nuevo_audio.setAttribute("id", "audio")
-
-      nuevo_audio.setAttribute("controls", "controls")
+      nuevo_audio.setAttribute("id", "audio")      
 
       nuevo_audio.setAttribute("name", defaultTrack)
 
       nuevo_audio.setAttribute("src", defaultTrack)
 
-      nuevo_audio.setAttribute("autoplay", "autoplay")
+      nuevo_audio.setAttribute("controls", 'controls')
 
-      //  nuevo_audio.setAttribute("loop", "loop")
-
+      
       padre = document.getElementById("reproductor")
-
+      
       padre.appendChild(nuevo_audio)
-
+      
       nuevo_audio.onended = nextTrack
-
-      trackSelected(defaultTrack, true)
+    
+      
+    //POR SI QUIERES PONERLO EN AUTOPLAY DESCOMENTAR ESTO
+    // nuevo_audio.setAttribute("autoplay", "autoplay")
+    // trackSelected(true)
 
     }
 
@@ -283,7 +259,8 @@
 
 
 
-
+    //AÑADE LOS EVENTOS A LA TRACKLIST
+    //Y DEVUELVE LA PRIMERA CANCION DE LA LISTA
     function trackList() {
 
       var tracks = document.getElementsByClassName('track');
@@ -295,6 +272,7 @@
 
       }
 
+      //DEVUELVE LA PRIMERA CANCION DE LA LISTA (DEFAULTTRACK)
       return tracks[0].id
 
     }
@@ -303,23 +281,29 @@
 
 
 
-    //obtengo el track y se lo paso a cargar reproductor
+
+
+    //ESTE METODO SE ENCARGA DE CARGAR LAS CANCIONES QUE PULSES EN LA PLAYLIST
     function loadTrack(e) {
-
+      
       var event = e || window.event;
-
+      
+      //OBTIENE EL ID DE LA OPCION PULSADA DE LA PLAYLIST (EL NOMBRE DE LA CANCION)
       track = event.target.id;
 
-      // cargarTrack(event.target.id);
       audio = document.getElementById('audio');
 
+      //LA CARGA EN EL REPRODUCTOR
       audio.setAttribute('src', track)
 
+      //CARGA EL NOMBRE DE LA CANCION EN EL NAME DEL REPRODUCTOR
+      //PARA SABER QUE CANCION ESTÁ SONANDO
+      //**** LO HAGO ASI PORQUE SI OBTENGO EL ATRIBUTO SRC ME DA LA RUTA ABSOLUTA
       audio.setAttribute('name', track)
 
       audio.play()
 
-      trackSelected(track,true)
+      trackSelected(true)
 
     }
 
@@ -327,25 +311,33 @@
 
 
 
-    function trackSelected(track, itsPlay) {
+
+
+    //ESTE METODO COLOCA EL ICONO DE PLAY O PAUSE AL 
+    //LADO DEL NOMBRE DE LA CANCION QUE ESTÁ SONANDO
+    function trackSelected(itsPlay) {
 
       var audio = document.getElementById("audio")
 
       var tracks = document.getElementsByClassName('track');
 
 
+      //RECORRO LOS TRACKS
       for (let index = 0; index < tracks.length; index++) {
 
+        //LES QUITO TODOS LOS ESTILOS A LOS ELEMENTOS
         tracks[index].nextSibling.className = ''
 
+        //SI EL ID DEL TRACK EN ESTA ITERACION COINCIDE CON EL NOMBRE DE LA CANCION QUE ESTA SONANDO
         if (tracks[index].id == audio.getAttribute('name')) {
 
-
+          //SI LA CANCION ESTA SONANDO PONLE EL ICONO DE PLAY
           if(itsPlay){
 
           tracks[index].nextSibling.classList.add('fa')
           tracks[index].nextSibling.classList.add('fa-play')
 
+          //SI LA CANCION ESTÁ EN PAUSE PONLE EL ICONO DE PAUSE
           }else{
 
             tracks[index].nextSibling.classList.add('fa')
