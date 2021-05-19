@@ -10,7 +10,7 @@
   <body>
     <h1>Activity 4: Change the image</h1>
     <p>Change the following image with changed.png only if changed.png exists in the server (you need to add the images)</p>
-    <img id="image" src="./default.png" alt="just an image">
+    <img id="image" src="./default.jpg" alt="just an image">
 
 
 
@@ -18,17 +18,17 @@
 
     var imgSearch = './changed.png' ;
     
+    //PIDE LA IMAGEN AL SERVIDOR
     fetch(imgSearch)
     .then(response => changeImg(response));
 
     
     function changeImg (response) {
-      
-      var image = document.getElementById('image');
 
-      console.log(response);
-
+      //SI LA RESPUESTA ES EXITOSA COLOCA LA IMAGEN
       if(response.status == 200){
+
+        var image = document.getElementById('image');
 
         image.setAttribute('src',response.url);
 
